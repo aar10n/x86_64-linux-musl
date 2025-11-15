@@ -1,0 +1,12 @@
+build/
+
+.git/
+
+.DS_Store
+
+*.tar.gz
+*.tar.xz
+
+README.md
+
+# Note: toolchain/ is copied to the Docker image
