@@ -4,11 +4,9 @@
 # Component versions are not overridable via local.mk.
 AUTOCONF_VERSION := 2.69
 BINUTILS_VERSION := 2.38
-GCC_VERSION := 11.4.0
+GCC_VERSION := 12.1.0
 PKGCONFIG_VERSION := 0.29.2
 LIBTOOL_VERSION := 2.4.7
-LIBDWARF_VERSION := 0.5.0
-MAKEPKG_VERSION := 0.1.5
 
 ARCH = x86_64
 TOOLCHAIN = $(ARCH)-linux-musl
@@ -16,7 +14,7 @@ TOOLCHAIN = $(ARCH)-linux-musl
 BUILD_DIR = $(CURDIR)/build
 TOOL_ROOT = $(CURDIR)/toolchain
 
-MUSL_GIT_URL = https://github.com/aar10n/osdev-musl.git
+MUSL_GIT_URL = git://git.musl-libc.org/musl
 MUSL_GIT_BRANCH = master
 
 HOST_OS = $(shell uname -s | tr 'A-Z' 'a-z')

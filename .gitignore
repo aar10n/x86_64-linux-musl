@@ -1,0 +1,26 @@
+# Build artifacts
+build/
+toolchain/
+
+# Local configuration
+local.mk
+build.log
+
+# Archives
+*.tar.gz
+*.tar.xz
+*.tar.bz2
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp

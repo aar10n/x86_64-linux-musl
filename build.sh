@@ -484,12 +484,98 @@ main() {
     fi
 }
 
-# Check if running with arguments (for future extension)
-if [ $# -eq 0 ]; then
+# Headless mode (non-interactive build)
+main_headless() {
+    local make_targets="$1"
+
+    # Default to all core components if --all is specified
+    if [ -z "$make_targets" ]; then
+        make_targets="autoconf binutils gcc musl libtool"
+    fi
+
+    echo "======================================================================"
+    echo "  x86_64-linux-musl Toolchain Build (Headless Mode)"
+    echo "======================================================================"
+    echo ""
+
+    local build_dir=$(read_config_value "BUILD_DIR")
+    local tool_root=$(read_config_value "TOOL_ROOT")
+
+    echo "Components: $make_targets"
+    echo "Build dir:  $build_dir"
+    echo "Install to: $tool_root"
+    echo ""
+
+    # Build using make
+    build_local "$make_targets"
+}
+
+# Parse command line arguments
+HEADLESS=false
+BUILD_TARGETS=""
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --headless)
+            HEADLESS=true
+            shift
+            ;;
+        --all)
+            # --all means build all core components
+            BUILD_TARGETS="autoconf binutils gcc musl libtool"
+            shift
+            ;;
+        --help|-h)
+            cat << EOF
+Usage: $0 [OPTIONS] [COMPONENTS...]
+
+Interactive toolchain builder using dialog (default mode).
+
+OPTIONS:
+  --headless          Non-interactive mode (skip dialog prompts)
+  --all               Build all core components (autoconf, binutils, gcc, musl, libtool)
+  --help, -h          Show this help message
+
+COMPONENTS:
+  autoconf            GNU Autoconf
+  binutils            GNU Binutils (assembler, linker, etc.)
+  gcc                 GNU Compiler Collection
+  musl                musl libc (dynamic)
+  musl-shared         musl libc (shared)
+  libtool             GNU Libtool
+
+EXAMPLES:
+  $0                           # Interactive mode with dialog
+  $0 --headless --all          # Build all components without prompts
+  $0 --headless gcc musl       # Build only gcc and musl
+
+NOTES:
+  - In headless mode, configuration is read from local.mk or config.mk
+  - Use local.mk to override default settings (see local.mk.example)
+  - Interactive mode requires 'dialog' to be installed
+
+EOF
+            exit 0
+            ;;
+        *)
+            # Treat as component name
+            BUILD_TARGETS="$BUILD_TARGETS $1"
+            shift
+            ;;
+    esac
+done
+
+# Trim whitespace
+BUILD_TARGETS=$(echo "$BUILD_TARGETS" | xargs)
+
+# Run appropriate mode
+if $HEADLESS; then
+    main_headless "$BUILD_TARGETS"
+elif [ $# -eq 0 ] && [ -z "$BUILD_TARGETS" ]; then
     main
 else
-    echo "Usage: $0"
-    echo ""
-    echo "Interactive toolchain builder using dialog."
+    # If we have targets but not headless, show error
+    echo "ERROR: Component arguments require --headless mode"
+    echo "Try: $0 --help"
     exit 1
 fi

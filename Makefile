@@ -84,7 +84,9 @@ BINUTILS_CONFIG = \
 	--prefix=$(BINUTILS_PREFIX) \
 	--srcdir=$(BINUTILS_SRC_DIR) \
 	--with-sysroot=$(TOOL_ROOT) \
-	--disable-werror --disable-multilib
+	--disable-werror --disable-multilib \
+	--disable-nls --disable-gdb --disable-libdecnumber \
+	--disable-readline --disable-sim
 
 $(BINUTILS_DIR)/.configure: | $(BINUTILS_SRC_DIR)
 	mkdir -p $(@D)
