@@ -121,6 +121,7 @@ GCC_CONFIG = --enable-languages=c,c++ \
 	--disable-bootstrap --disable-multilib \
 	--disable-libmpx --disable-libmudflap \
 	--disable-libsanitizer \
+	--disable-libcc1 \
 	--enable-tls --enable-initfini-array \
 	--enable-libstdcxx-filesystem-ts \
 	--enable-libstdcxx-time=rt \
