@@ -14,7 +14,7 @@ TOOLCHAIN = $(ARCH)-linux-musl
 BUILD_DIR = $(CURDIR)/build
 TOOL_ROOT = $(CURDIR)/toolchain
 
-MUSL_GIT_URL = git://git.musl-libc.org/musl
+MUSL_GIT_URL = https://github.com/aar10n/osdev-musl.git
 MUSL_GIT_BRANCH = master
 
 HOST_OS = $(shell uname -s | tr 'A-Z' 'a-z')
