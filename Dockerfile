@@ -21,7 +21,6 @@ WORKDIR /toolchain-build
 
 # Copy build files
 COPY config.mk Makefile ./
-COPY patches/ ./patches/
 
 # Build the toolchain
 RUN make -j$(nproc) all
